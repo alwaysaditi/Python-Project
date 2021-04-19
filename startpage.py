@@ -29,7 +29,7 @@ photo = ImageTk.PhotoImage(copy_of_image)
 label = Label(frame, image=photo)
 label.place(x=0, y=0, relwidth=1, relheight=1)
 label.bind('<Configure>', resize_image)
-
+#-----------------------------------Main Page------------------------------------#
 center_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350) #center frame for the functionalities
 center_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
 w = Label(center_frame, text ="Welcome to Aadhiksha Society!",bg="lightskyblue",fg="black")
@@ -44,7 +44,7 @@ regButton.place( anchor="n",relx=0.5,rely=0.4)
 infoButton = Button(center_frame,text="View more info!",bg="lightblue",fg="black",relief="raised")
 infoButton.config(font=("Courier", 10))
 infoButton.place( anchor="n",relx=0.5,rely=0.6)
-
+#-----------------------------------Register Page------------------------------#
 register_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350)
 register_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
 w = Label(register_frame, text ="Register!",bg="lightskyblue",fg="black")
@@ -60,10 +60,10 @@ flat.config(font=("Courier",10))
 flat.place( anchor="n",relx=0.2,rely=0.5)
 entry2 = Entry(register_frame) #entry box for flat no.
 entry2.place(anchor="n",relx=0.7,rely=0.5)
-tenants = Label(register_frame,text ="Number of tenants",bg="lightskyblue",fg="black") #Label box for tenants
-tenants.config(font=("Courier",10))
-tenants.place( anchor="n",relx=0.2,rely=0.7)
-entry3 = Entry(register_frame) #entry box for tenants
+password = Label(register_frame,text ="Password",bg="lightskyblue",fg="black") #Label box for password
+password.config(font=("Courier",10))
+password.place( anchor="n",relx=0.2,rely=0.7)
+entry3 = Entry(register_frame) #entry box for password
 entry3.place(anchor="n",relx=0.7,rely=0.7)
 
 submitButton = Button(register_frame,text="Submit!",bg="lightblue",fg="black",relief="raised")
