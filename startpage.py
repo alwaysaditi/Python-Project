@@ -70,11 +70,30 @@ submitButton = Button(register_frame,text="Submit!",bg="lightblue",fg="black",re
 submitButton.config(font=("Courier", 10)) #submit button on register page to submit data values after registering
 submitButton.place( anchor="n",relx=0.2,rely=0.9)
 
-loginButton = Button(register_frame,text="Already have an account? Login",bg="lightblue",fg="black",relief="raised")
+loginButton = Button(register_frame,text="Already have an account? Login",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(login_frame))
 loginButton.config(font=("Courier", 10)) #incase user already has an account he can login
 loginButton.place( anchor="n",relx=0.6,rely=0.9)
 
+#----------------------Login Page--------------------------#
+login_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350)
+login_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+w1 = Label(login_frame, text ="Login!",bg="lightskyblue",fg="black")
+w1.config(font=("Courier", 20))
+w1.place( anchor="n",relx=0.5,rely=0.1)
 
+flat1 = Label(login_frame,text ="Flat no.",bg="lightskyblue",fg="black") #Label box for flat no.
+flat1.config(font=("Courier",10))
+flat1.place( anchor="n",relx=0.2,rely=0.5)
+entry21 = Entry(login_frame) #entry box for flat no.
+entry21.place(anchor="n",relx=0.7,rely=0.5)
+password1 = Label(login_frame,text ="Password",bg="lightskyblue",fg="black") #Label box for password
+password1.config(font=("Courier",10))
+password1.place( anchor="n",relx=0.2,rely=0.7)
+entry31 = Entry(login_frame) #entry box for password
+entry31.place(anchor="n",relx=0.7,rely=0.7)
 
+submitButton = Button(login_frame,text="Submit!",bg="lightblue",fg="black",relief="raised")
+submitButton.config(font=("Courier", 10)) #submit button on register page to submit data values after registering
+submitButton.place( anchor="n",relx=0.5,rely=0.9)
 raise_frame(center_frame)
 root.mainloop()
