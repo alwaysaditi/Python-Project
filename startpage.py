@@ -23,14 +23,14 @@ frame = Frame(root, relief='raised', borderwidth=2) #mainframe of page
 frame.pack(fill=BOTH, expand=YES)
 frame.pack_propagate(False)
 
-copy_of_image = Image.open("images/firstimage.jpg")
+copy_of_image = Image.open("images/building.jpg")
 photo = ImageTk.PhotoImage(copy_of_image)
 
 label = Label(frame, image=photo)
 label.place(x=0, y=0, relwidth=1, relheight=1)
 label.bind('<Configure>', resize_image)
 
-center_frame = Frame(frame, relief='raised',bg="pink",width=500,height=300) #center frame for the functionalities
+center_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350) #center frame for the functionalities
 center_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
 w = Label(center_frame, text ="Welcome to Aadhiksha Society!",bg="lightskyblue",fg="black")
 w.config(font=("Courier", 20))
@@ -45,7 +45,7 @@ infoButton = Button(center_frame,text="View more info!",bg="lightblue",fg="black
 infoButton.config(font=("Courier", 10))
 infoButton.place( anchor="n",relx=0.5,rely=0.6)
 
-register_frame = Frame(frame, relief='raised',bg="pink",width=500,height=300)
+register_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350)
 register_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
 w = Label(register_frame, text ="Register!",bg="lightskyblue",fg="black")
 w.config(font=("Courier", 20))
