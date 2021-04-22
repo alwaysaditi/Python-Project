@@ -1,7 +1,8 @@
 from tkinter import *
+from tkinter import messagebox
 from PIL import Image, ImageTk
 import MySQLdb
-connection=MySQLdb.connect(host='localhost',database='society', user='root',password='')
+connection=MySQLdb.connect(host='localhost',database='society', user='root',password='root')
 
 def resize_image(event):
     new_width = event.width
@@ -148,7 +149,8 @@ login_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350)
 login_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
 w1 = Label(login_frame, text ="Login!",bg="lightskyblue",fg="black")
 w1.config(font=("Courier", 20))
-w1.place( anchor="n",relx=0.5,rely=0.1)
+w1.place( anchor="n",relx=0.2,rely=0.1)
+
 
 flat1 = Label(login_frame,text ="Flat no.",bg="lightskyblue",fg="black") #Label box for flat no.
 flat1.config(font=("Courier",10))
@@ -174,16 +176,16 @@ def login_watch():
     if(l_wuser=='aadhiksha_wat123' and l_wpass=='12345'):
         l_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350) #frame after clicking on login
         l_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
-        msg = Label(l_frame, text ="You are logged in!.\nWelcome to aadhksha cabinet(watchman).",bg="lightskyblue",fg="black")
+        msg = Label(l_frame, text ="You are logged in!.\nWelcome to aadhiksha cabinet(watchman).",bg="lightskyblue",fg="black")
         msg.config(font=("Courier", 20))
         msg.place( anchor="n",relx=0.5,rely=0.2)
-        proceed_button = Button(l_frame,text="proceed",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(watchman_main_frame))#ye proceed button click ke baad fuctions for watchman should be visible.watchman_main_frame ab iss function ke bahar likhna
+        proceed_button = Button(l_frame,text="proceed",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(watchman_frame))#ye proceed button click ke baad fuctions for watchman should be visible.watchman_main_frame ab iss function ke bahar likhna
         proceed_button.config(font=("Courier", 10))
         proceed_button.place( anchor="n",relx=0.5,rely=0.9)
-    if(l_wuser=='aadhiksha_sec123' and l_wpass=='12345'):
+    elif(l_wuser=='aadhiksha_sec123' and l_wpass=='12345'):
         l_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350) #frame after clicking on login
         l_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
-        msg = Label(l_frame, text ="You are logged in!.\nWelcome to aadhksha cabinet(secretary).",bg="lightskyblue",fg="black")
+        msg = Label(l_frame, text ="You are logged in!.\nWelcome to aadhiksha cabinet(secretary).",bg="lightskyblue",fg="black")
         msg.config(font=("Courier", 20))
         msg.place( anchor="n",relx=0.5,rely=0.2)
         proceed_button = Button(l_frame,text="proceed",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(secretary_main_frame))#ye proceed button click ke baad fuctions for secretary should be visible.secretary_main_frame ab iss function ke bahar likhna
@@ -195,9 +197,11 @@ def login_watch():
         msg = Label(l_frame, text ="please try again!",bg="lightskyblue",fg="black")
         msg.config(font=("Courier", 20))
         msg.place( anchor="n",relx=0.5,rely=0.2)
-        backbutton = Button(l_frame,text="back",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(login_frame))
+        backbutton = Button(l_frame,text="back",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(watch_frame))
         backbutton.config(font=("Courier", 10))
         backbutton.place( anchor="n",relx=0.6,rely=0.5)
+
+
 
 
 
@@ -222,15 +226,64 @@ entry5.place(anchor="n",relx=0.7,rely=0.7)
 
 submitButton = Button(watch_frame,text="login!",bg="lightblue",fg="black",relief="raised", command=login_watch)
 submitButton.config(font=("Courier", 10)) #submit button on register page to submit data values after registering
-submitButton.place( anchor="n",relx=0.5,rely=0.9)
+submitButton.place( anchor="n",relx=0.2,rely=0.9)
+backlogin = Button(watch_frame,text="Back",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(center_frame))
+backlogin.config(font=("Courier", 10)) #submit button on register page to submit data values after registering
+backlogin.place( anchor="n",relx=0.6,rely=0.9)
 
 
+#begin residents_main_frame . fuctions for residents should be visible.
+#------------------------------------Watchman's Functions-----------------------------------#
+def notices_fun(): #function for writing the notices entered by the watchman on the file.
+    date_notice=notice_d.get()
+    content_notice=notice_con.get()
+    f=open("notices.txt","a") #notices.txt is the text file to which the notice is to be written.
+    f.write("\n")
+    f.write(date_notice)
+    f.write("       ")
+    f.write(content_notice)
+def displaymsgbox():
+    messagebox.askokcancel("Notice Creation","Your notice has been created!") 
+#----------------------------------Tkinter Stuff for Notices by watchman--------------------------#
+watchman_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350) #first screen after watchman logs in
+watchman_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+w2 = Label(watchman_frame, text ="Welcome watchman!",bg="lightskyblue",fg="black")
+w2.config(font=("Courier", 20))
+w2.place( anchor="n",relx=0.5,rely=0.1)
+noticeButton = Button(watchman_frame,text="Create notice for residents",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(notices_frame))
+noticeButton.config(font=("Courier", 10)) 
+noticeButton.place( anchor="n",relx=0.5,rely=0.4)
+backwatchButton = Button(watchman_frame,text="Back!",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(watch_frame))
+backwatchButton.config(font=("Courier", 10)) 
+backwatchButton.place( anchor="n",relx=0.5,rely=0.8)
+notices_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350)
+notices_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+w2 = Label(notices_frame, text ="Section for notices!",bg="lightskyblue",fg="black")
+w2.config(font=("Courier", 20))
+w2.place( anchor="n",relx=0.5,rely=0.1)
+
+notice_d=StringVar() #variable to take in date of notice
+notice_con=StringVar() #variable to take in content of notice
+date = Label(notices_frame,text ="Date of notice",bg="lightskyblue",fg="black") #Label box for date of notice
+date.config(font=("Courier",10))
+date.place( anchor="n",relx=0.2,rely=0.3)
+entryd = Entry(notices_frame,bd=5,textvariable=notice_d) #entry box for date of notice
+entryd.place(anchor="n",relx=0.7,rely=0.3)
+content = Label(notices_frame,text ="Notice",bg="lightskyblue",fg="black") #Label box for notice.
+content.config(font=("Courier",10))
+content.place( anchor="n",relx=0.2,rely=0.5)
+entryc = Entry(notices_frame,bd=5,textvariable=notice_con) #entry box for notice.
+entryc.place(anchor="n",relx=0.7,rely=0.5)
+submitnotice = Button(notices_frame,text="Create Notice",bg="lightblue",fg="black",relief="raised", command=lambda:[notices_fun(),displaymsgbox()])
+submitnotice.config(font=("Courier", 10)) #submit button on register page to submit data values after registering
+submitnotice.place( anchor="n",relx=0.2,rely=0.9)
+backnotice = Button(notices_frame,text="Back",bg="lightblue",fg="black",relief="raised", command=lambda:raise_frame(watchman_frame))
+backnotice.config(font=("Courier", 10)) #submit button on register page to submit data values after registering
+backnotice.place( anchor="n",relx=0.6,rely=0.9)
+#begin secretary_main_frame . fuctions for secretary should be visible
 
 
 raise_frame(center_frame)
 root.mainloop()
 
 
-#begin residents_main_frame . fuctions for residents should be visible.
-#begin watchman_main_frame . fuctions for watchman should be visible.
-#begin secretary_main_frame . fuctions for secretary should be visible.
