@@ -173,9 +173,11 @@ submitButton.place( anchor="n",relx=0.5,rely=0.9)
 def login_watch():
     l_wpass=lo_wpassword.get()
     l_wuser=lo_wusername.get()
+    global l_frame
     if(l_wuser=='aadhiksha_wat123' and l_wpass=='12345'):
         l_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350) #frame after clicking on login
         l_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+        
         msg = Label(l_frame, text ="You are logged in!.\nWelcome to aadhiksha cabinet(watchman).",bg="lightskyblue",fg="black")
         msg.config(font=("Courier", 20))
         msg.place( anchor="n",relx=0.5,rely=0.2)
@@ -192,8 +194,7 @@ def login_watch():
         proceed_button.config(font=("Courier", 10))
         proceed_button.place( anchor="n",relx=0.5,rely=0.9)
     else:
-        l_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350) 
-        l_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+        
         msg = Label(l_frame, text ="please try again!",bg="lightskyblue",fg="black")
         msg.config(font=("Courier", 20))
         msg.place( anchor="n",relx=0.5,rely=0.2)
@@ -231,8 +232,37 @@ backlogin = Button(watch_frame,text="Back",bg="lightblue",fg="black",relief="rai
 backlogin.config(font=("Courier", 10)) #submit button on register page to submit data values after registering
 backlogin.place( anchor="n",relx=0.6,rely=0.9)
 
+#----------------------------Resident's Frames----------------------------------------#
+def res_notice():
+    notices=" "
+    f=open("notices.txt")
+    notices=f.read()
+    raise_frame(residents_notice_frame)
+    notsec = Label(residents_notice_frame, text =notices,bg="lightskyblue",fg="black")
+    notsec.config(font=("Courier", 10))
+    notsec.place( anchor="n",relx=0.5,rely=0.1)
+    backnotButton = Button(residents_notice_frame,text="Back!",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(residents_main_frame))
+    backnotButton.config(font=("Courier", 10)) 
+    backnotButton.place( anchor="n",relx=0.5,rely=0.9)
 
-#begin residents_main_frame . fuctions for residents should be visible.
+residents_main_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350) #first screen after watchman logs in
+residents_main_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+welres = Label(residents_main_frame, text ="Welcome Resident!",bg="lightskyblue",fg="black")
+welres.config(font=("Courier", 20))
+welres.place( anchor="n",relx=0.5,rely=0.1)
+viewNotice = Button(residents_main_frame,text="View Notices!",bg="lightblue",fg="black",relief="raised",command=res_notice)
+viewNotice.config(font=("Courier", 10)) 
+viewNotice.place( anchor="n",relx=0.2,rely=0.4)
+backresButton = Button(residents_main_frame,text="Back!",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(login_frame))
+backresButton.config(font=("Courier", 10)) 
+backresButton.place( anchor="n",relx=0.6,rely=0.4)
+residents_notice_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350) #first screen after watchman logs in
+residents_notice_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+notres = Label(residents_notice_frame, text ="Notices Section",bg="lightskyblue",fg="black")
+notres.config(font=("Courier", 10))
+notres.place( anchor="n",relx=0.5,rely=0.01)
+
+
 #------------------------------------Watchman's Functions-----------------------------------#
 def notices_fun(): #function for writing the notices entered by the watchman on the file.
     date_notice=notice_d.get()
