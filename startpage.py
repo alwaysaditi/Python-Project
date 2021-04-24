@@ -135,7 +135,7 @@ def login():
         print("failed")
         l_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350) #frame after clicking on submit
         l_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
-        msg = Label(l_frame, text ="please try again!",bg="lightskyblue",fg="black")
+        msg = Label(l_frame,text ="please try again!",bg="lightskyblue",fg="black")
         msg.config(font=("Courier", 20))
         msg.place( anchor="n",relx=0.5,rely=0.2)
         backbutton = Button(l_frame,text="back",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(login_frame))
@@ -245,6 +245,83 @@ def res_notice():
     backnotButton.config(font=("Courier", 10)) 
     backnotButton.place( anchor="n",relx=0.5,rely=0.9)
 
+class Maintain:
+    def __init__(self):
+        m_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350) #
+        m_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+        msg3 = Label(m_frame, text ="Maintenance",bg="lightskyblue",fg="black")
+        msg3.config(font=("Courier", 20))
+        msg3.place( anchor="n",relx=0.5,rely=0.1)
+    def Options():
+        m_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350) #
+        m_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+        msg3 = Label(m_frame, text ="Maintenance",bg="lightskyblue",fg="black")
+        msg3.config(font=("Courier", 20))
+        msg3.place( anchor="n",relx=0.5,rely=0.1)
+        water_button3 = Button(m_frame,text="Water supply",bg="lightblue",fg="black",relief="raised",command=Water.Wat)#ye proceed button click ke baad fuctions for watchman should be visible.watchman_main_frame ab iss function ke bahar likhna
+        water_button3.config(font=("Courier", 10))
+        water_button3.place( anchor="n",relx=0.5,rely=0.9)
+        elec_button3 = Button(m_frame,text="Electrical repairs",bg="lightblue",fg="black",relief="raised",command=Electrical.Elec)#ye proceed button click ke baad fuctions for watchman should be visible.watchman_main_frame ab iss function ke bahar likhna
+        elec_button3.config(font=("Courier", 10))
+        elec_button3.place( anchor="n",relx=0.5,rely=0.7)
+        fest_button3 = Button(m_frame,text="Festive occasions",bg="lightblue",fg="black",relief="raised",command=Festival.Fest)#ye proceed button click ke baad fuctions for watchman should be visible.watchman_main_frame ab iss function ke bahar likhna
+        fest_button3.config(font=("Courier", 10))
+        fest_button3.place( anchor="n",relx=0.5,rely=0.5)
+        clean_button3 = Button(m_frame,text="Cleaning charges",bg="lightblue",fg="black",relief="raised",command=Cleaning.Clean)#ye proceed button click ke baad fuctions for watchman should be visible.watchman_main_frame ab iss function ke bahar likhna
+        clean_button3.config(font=("Courier", 10))
+        clean_button3.place( anchor="n",relx=0.5,rely=0.3)
+class Festival(Maintain):
+    def __init__(self):
+        Maintain.__init__(self)
+    def Fest():
+        f_frame=Frame(frame, relief='raised',bg="grey",width=700,height=350) #
+        f_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+        Labell=Label(f_frame, text ="Amount to be paid for festive occasions: Rs. 1500",bg="lightskyblue",fg="black")
+        Labell.config(font=("Courier", 15))
+        Labell.place( anchor="n",relx=0.5,rely=0.4)
+        back2Button = Button(f_frame,text="Back!",bg="lightblue",fg="black",relief="raised",command=Maintain.Options)
+        back2Button.config(font=("Courier", 10)) 
+        back2Button.place( anchor="n",relx=0.5,rely=0.9)
+        
+class Electrical(Maintain):
+    def __init__(self):
+        Maintain.__init__(self)
+    def Elec():    
+        e_frame=Frame(frame, relief='raised',bg="grey",width=700,height=350) #
+        e_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+        ele=Label(e_frame, text ="Amount to be paid for Electrical repairs : 200",bg="lightskyblue",fg="black")
+        ele.config(font=("Courier", 15))
+        ele.place( anchor="n",relx=0.5,rely=0.4)
+        back3Button = Button(e_frame,text="Back!",bg="lightblue",fg="black",relief="raised",command=Maintain.Options)
+        back3Button.config(font=("Courier", 10)) 
+        back3Button.place( anchor="n",relx=0.5,rely=0.9)        
+
+class Water(Maintain):
+    def __init__(self):
+        Maintain.__init__(self)
+    def Wat():    
+        wt_frame=Frame(frame, relief='raised',bg="grey",width=700,height=350) #
+        wt_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+        watmsg=Label(wt_frame, text ="Amount to be paid for Water supply : 400",bg="lightskyblue",fg="black")
+        watmsg.config(font=("Courier", 15))
+        watmsg.place( anchor="n",relx=0.5,rely=0.4)
+        back4Button = Button(wt_frame,text="Back!",bg="lightblue",fg="black",relief="raised",command=Maintain.Options)
+        back4Button.config(font=("Courier", 10)) 
+        back4Button.place( anchor="n",relx=0.5,rely=0.9)
+
+class Cleaning(Maintain):
+    def __init__(self):
+        Maintain.__init__(self)
+    def Clean():    
+        cl_frame=Frame(frame, relief='raised',bg="grey",width=700,height=350) #
+        cl_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+        clemsg=Label(cl_frame, text ="Amount to be paid for the maintenance and cleaning of building : 500",bg="lightskyblue",fg="black")
+        clemsg.config(font=("Courier", 13))
+        clemsg.place( anchor="n",relx=0.5,rely=0.4)
+        backsButton = Button(cl_frame,text="Back!",bg="lightblue",fg="black",relief="raised",command=Maintain.Options)
+        backsButton.config(font=("Courier", 10)) 
+        backsButton.place( anchor="n",relx=0.5,rely=0.9)
+        
 residents_main_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350) #first screen after watchman logs in
 residents_main_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
 welres = Label(residents_main_frame, text ="Welcome Resident!",bg="lightskyblue",fg="black")
@@ -253,9 +330,12 @@ welres.place( anchor="n",relx=0.5,rely=0.1)
 viewNotice = Button(residents_main_frame,text="View Notices!",bg="lightblue",fg="black",relief="raised",command=res_notice)
 viewNotice.config(font=("Courier", 10)) 
 viewNotice.place( anchor="n",relx=0.2,rely=0.4)
+viewMaintenance = Button(residents_main_frame,text="Maintenance charges!",bg="lightblue",fg="black",relief="raised",command=Maintain.Options)
+viewMaintenance.config(font=("Courier", 10)) 
+viewMaintenance.place( anchor="n",relx=0.5,rely=0.4)
 backresButton = Button(residents_main_frame,text="Back!",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(login_frame))
 backresButton.config(font=("Courier", 10)) 
-backresButton.place( anchor="n",relx=0.6,rely=0.4)
+backresButton.place( anchor="n",relx=0.8,rely=0.4)
 residents_notice_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350) #first screen after watchman logs in
 residents_notice_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
 notres = Label(residents_notice_frame, text ="Notices Section",bg="lightskyblue",fg="black")
@@ -282,10 +362,13 @@ w2.config(font=("Courier", 20))
 w2.place( anchor="n",relx=0.5,rely=0.1)
 noticeButton = Button(watchman_frame,text="Create notice for residents",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(notices_frame))
 noticeButton.config(font=("Courier", 10)) 
-noticeButton.place( anchor="n",relx=0.5,rely=0.4)
+noticeButton.place( anchor="n",relx=0.5,rely=0.3)
+contactButton = Button(watchman_frame,text="Contact individual residents",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(flatnumbers_frame))
+contactButton.config(font=("Courier", 10)) 
+contactButton.place( anchor="n",relx=0.5,rely=0.5)
 backwatchButton = Button(watchman_frame,text="Back!",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(watch_frame))
 backwatchButton.config(font=("Courier", 10)) 
-backwatchButton.place( anchor="n",relx=0.5,rely=0.8)
+backwatchButton.place( anchor="n",relx=0.5,rely=0.7)
 notices_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350)
 notices_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
 w2 = Label(notices_frame, text ="Section for notices!",bg="lightskyblue",fg="black")
@@ -312,8 +395,79 @@ backnotice.config(font=("Courier", 10)) #submit button on register page to submi
 backnotice.place( anchor="n",relx=0.6,rely=0.9)
 #begin secretary_main_frame . fuctions for secretary should be visible
 
+flatnumbers_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350)
+flatnumbers_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+topmsg = Label(flatnumbers_frame, text ="Flat number you want to contact:",bg="lightskyblue",fg="black")
+topmsg.config(font=("Courier", 20))
+topmsg.place( anchor="n",relx=0.5,rely=0.2)
+a101= Button(flatnumbers_frame,text="101",bg="lightblue",fg="black",relief="raised")
+a101.config(font=("Courier", 10)) 
+a101.place( anchor="n",x=100,y=140)
+a102= Button(flatnumbers_frame,text="102",bg="lightblue",fg="black",relief="raised")
+a102.config(font=("Courier", 10)) 
+a102.place( anchor="n",x=100,y=200)
+a103= Button(flatnumbers_frame,text="103",bg="lightblue",fg="black",relief="raised")
+a103.config(font=("Courier", 10)) 
+a103.place( anchor="n",x=100,y=260)
+a201= Button(flatnumbers_frame,text="201",bg="lightblue",fg="black",relief="raised")
+a201.config(font=("Courier", 10)) 
+a201.place( anchor="n",x=180,y=140)
+a202= Button(flatnumbers_frame,text="202",bg="lightblue",fg="black",relief="raised")
+a202.config(font=("Courier", 10)) 
+a202.place( anchor="n",x=180,y=200)
+a203= Button(flatnumbers_frame,text="203",bg="lightblue",fg="black",relief="raised")
+a203.config(font=("Courier", 10)) 
+a203.place( anchor="n",x=180,y=260)
+a301= Button(flatnumbers_frame,text="301",bg="lightblue",fg="black",relief="raised")
+a301.config(font=("Courier", 10)) 
+a301.place( anchor="n",x=260,y=140)
+a302= Button(flatnumbers_frame,text="302",bg="lightblue",fg="black",relief="raised")
+a302.config(font=("Courier", 10)) 
+a302.place( anchor="n",x=260,y=200)
+a303= Button(flatnumbers_frame,text="303",bg="lightblue",fg="black",relief="raised")
+a303.config(font=("Courier", 10)) 
+a303.place( anchor="n",x=260,y=260)
+a401= Button(flatnumbers_frame,text="401",bg="lightblue",fg="black",relief="raised")
+a401.config(font=("Courier", 10)) 
+a401.place( anchor="n",x=340,y=140)
+a402= Button(flatnumbers_frame,text="402",bg="lightblue",fg="black",relief="raised")
+a402.config(font=("Courier", 10)) 
+a402.place( anchor="n",x=340,y=200)
+a403= Button(flatnumbers_frame,text="403",bg="lightblue",fg="black",relief="raised")
+a403.config(font=("Courier", 10)) 
+a403.place( anchor="n",x=340,y=260)
+a501= Button(flatnumbers_frame,text="501",bg="lightblue",fg="black",relief="raised")
+a501.config(font=("Courier", 10)) 
+a501.place( anchor="n",x=420,y=140)
+a502= Button(flatnumbers_frame,text="502",bg="lightblue",fg="black",relief="raised")
+a502.config(font=("Courier", 10)) 
+a502.place( anchor="n",x=420,y=200)
+a503= Button(flatnumbers_frame,text="503",bg="lightblue",fg="black",relief="raised")
+a503.config(font=("Courier", 10)) 
+a503.place( anchor="n",x=420,y=260)
+a601= Button(flatnumbers_frame,text="601",bg="lightblue",fg="black",relief="raised")
+a601.config(font=("Courier", 10)) 
+a601.place( anchor="n",x=500,y=140)
+a602= Button(flatnumbers_frame,text="602",bg="lightblue",fg="black",relief="raised")
+a602.config(font=("Courier", 10)) 
+a602.place( anchor="n",x=500,y=200)
+a603= Button(flatnumbers_frame,text="603",bg="lightblue",fg="black",relief="raised")
+a603.config(font=("Courier", 10)) 
+a603.place( anchor="n",x=500,y=260)
+a701= Button(flatnumbers_frame,text="701",bg="lightblue",fg="black",relief="raised")
+a701.config(font=("Courier", 10)) 
+a701.place( anchor="n",x=580,y=140)
+a702= Button(flatnumbers_frame,text="702",bg="lightblue",fg="black",relief="raised")
+a702.config(font=("Courier", 10)) 
+a702.place( anchor="n",x=580,y=200)
+a703= Button(flatnumbers_frame,text="703",bg="lightblue",fg="black",relief="raised")
+a703.config(font=("Courier", 10)) 
+a703.place( anchor="n",x=580,y=260)
+proceedd = Button(flatnumbers_frame,text="Proceed",bg="lightpink",fg="black",relief="raised")
+proceedd.config(font=("Courier", 10)) #submit button on register page to submit data values after registering
+proceedd.place( anchor="n",relx=0.5,rely=0.9)
+
 
 raise_frame(center_frame)
 root.mainloop()
-
 
