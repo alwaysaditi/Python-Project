@@ -194,7 +194,8 @@ def login_watch():
         proceed_button.config(font=("Courier", 10))
         proceed_button.place( anchor="n",relx=0.5,rely=0.9)
     else:
-        
+        l_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350) #frame after clicking on login
+        l_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
         msg = Label(l_frame, text ="please try again!",bg="lightskyblue",fg="black")
         msg.config(font=("Courier", 20))
         msg.place( anchor="n",relx=0.5,rely=0.2)
