@@ -2,7 +2,8 @@ from tkinter import *
 from tkinter import messagebox
 from PIL import Image, ImageTk
 import MySQLdb
-connection=MySQLdb.connect(host='localhost',database='society', user='root',password='root')
+connection=MySQLdb.connect(host='localhost',database='society', user='root',password='')
+cursor=connection.cursor()
 
 def resize_image(event):
     new_width = event.width
@@ -144,6 +145,7 @@ def login():
     
 
 lo_flat=StringVar()
+print(lo_flat)
 lo_pass=StringVar()
 login_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350)
 login_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
@@ -248,36 +250,74 @@ def res_notice():
 
 class Maintain:
     def __init__(self):
-        m_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350) #
-        m_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
-        msg3 = Label(m_frame, text ="Maintenance",bg="lightskyblue",fg="black")
+        option_frame = Frame(frame, relief="raised",bg="grey",width=700,height=350) #
+        option_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+        msg3 = Label(option_frame, text ="Maintenance",bg="lightskyblue",fg="black")
         msg3.config(font=("Courier", 20))
         msg3.place( anchor="n",relx=0.5,rely=0.1)
     def Options():
-        m_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350) #
-        m_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
-        msg3 = Label(m_frame, text ="Maintenance",bg="lightskyblue",fg="black")
+        option_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350)
+        option_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+        msg3 = Label(option_frame, text ="Maintenance",bg="lightskyblue",fg="black")
         msg3.config(font=("Courier", 20))
         msg3.place( anchor="n",relx=0.5,rely=0.1)
-        water_button3 = Button(m_frame,text="Water supply",bg="lightblue",fg="black",relief="raised",command=Water.Wat)#ye proceed button click ke baad fuctions for watchman should be visible.watchman_main_frame ab iss function ke bahar likhna
+        water_button3 = Button(option_frame,text="Water supply",bg="lightblue",fg="black",relief="raised",command=Water.Wat)
         water_button3.config(font=("Courier", 10))
-        water_button3.place( anchor="n",relx=0.5,rely=0.9)
-        elec_button3 = Button(m_frame,text="Electrical repairs",bg="lightblue",fg="black",relief="raised",command=Electrical.Elec)#ye proceed button click ke baad fuctions for watchman should be visible.watchman_main_frame ab iss function ke bahar likhna
+        water_button3.place( anchor="n",relx=0.5,rely=0.6)
+        elec_button3 = Button(option_frame,text="Electrical repairs",bg="lightblue",fg="black",relief="raised",command=Electrical.Elec)
         elec_button3.config(font=("Courier", 10))
         elec_button3.place( anchor="n",relx=0.5,rely=0.7)
-        fest_button3 = Button(m_frame,text="Festive occasions",bg="lightblue",fg="black",relief="raised",command=Festival.Fest)#ye proceed button click ke baad fuctions for watchman should be visible.watchman_main_frame ab iss function ke bahar likhna
+        fest_button3 = Button(option_frame,text="Festive occasions",bg="lightblue",fg="black",relief="raised",command=Festival.Fest)
         fest_button3.config(font=("Courier", 10))
         fest_button3.place( anchor="n",relx=0.5,rely=0.5)
-        clean_button3 = Button(m_frame,text="Cleaning charges",bg="lightblue",fg="black",relief="raised",command=Cleaning.Clean)#ye proceed button click ke baad fuctions for watchman should be visible.watchman_main_frame ab iss function ke bahar likhna
+        clean_button3 = Button(option_frame,text="Cleaning charges",bg="lightblue",fg="black",relief="raised",command=Cleaning.Clean)
         clean_button3.config(font=("Courier", 10))
         clean_button3.place( anchor="n",relx=0.5,rely=0.3)
+        bill = Button(option_frame,text="Total Bill",bg="lightblue",fg="black",relief="raised",command=Totbill.Bill)
+        bill.config(font=("Courier", 10))
+        bill.place( anchor="n",relx=0.5,rely=0.8)
+        backButton = Button(option_frame,text="Back!",bg="lightblue",fg="black",relief="raised",command=Maintain.back)
+        backButton.config(font=("Courier", 10)) 
+        backButton.place( anchor="n",relx=0.5,rely=0.9)
+        raise_frame(option_frame)
+
+    def pay_bill():
+        strr="update residents set maintenance_paid=%s where r_flat_no=%s and maintenance_paid=%s"
+        data=("yes",lo_flat.get(),"no")
+        cursor.execute(strr,data)
+        connection.commit()
+        if(cursor.rowcount>0):
+            pay_frame=Frame(frame, relief='raised',bg="grey",width=700,height=350)
+            pay_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+            Labell=Label(pay_frame, text ="Thank you.\nPlease pay the amount at society office",bg="lightskyblue",fg="black")
+            Labell.config(font=("Courier", 15))
+            Labell.place( anchor="n",relx=0.5,rely=0.4)
+            back2Button = Button(pay_frame,text="Back!",bg="lightblue",fg="black",relief="raised",command=Maintain.Options)
+            back2Button.config(font=("Courier", 10)) 
+            back2Button.place( anchor="n",relx=0.5,rely=0.7)
+        strr="select * from residents where r_flat_no=%s and sec_maintenance_received=%s"
+        data=(lo_flat.get(),"yes")
+        cursor.execute(strr,data)
+        if(cursor.rowcount>0):
+            pay_frame=Frame(frame, relief='raised',bg="grey",width=700,height=350)
+            pay_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+            Labell=Label(pay_frame, text ="You have already paid the amount\nThank You.",bg="lightskyblue",fg="black")
+            Labell.config(font=("Courier", 15))
+            Labell.place( anchor="n",relx=0.5,rely=0.4)
+            back2Button = Button(pay_frame,text="Back!",bg="lightblue",fg="black",relief="raised",command=Maintain.Options)
+            back2Button.config(font=("Courier", 10)) 
+            back2Button.place( anchor="n",relx=0.5,rely=0.7)
+
+    def back():
+        raise_frame(residents_main_frame)
+
 class Festival(Maintain):
     def __init__(self):
         Maintain.__init__(self)
     def Fest():
         f_frame=Frame(frame, relief='raised',bg="grey",width=700,height=350) #
         f_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
-        Labell=Label(f_frame, text ="Amount to be paid for festive occasions: Rs. 1500",bg="lightskyblue",fg="black")
+        Labell=Label(f_frame, text ="Amount to be paid for festive occasions: Rs. 300",bg="lightskyblue",fg="black")
         Labell.config(font=("Courier", 15))
         Labell.place( anchor="n",relx=0.5,rely=0.4)
         back2Button = Button(f_frame,text="Back!",bg="lightblue",fg="black",relief="raised",command=Maintain.Options)
@@ -322,6 +362,23 @@ class Cleaning(Maintain):
         backsButton = Button(cl_frame,text="Back!",bg="lightblue",fg="black",relief="raised",command=Maintain.Options)
         backsButton.config(font=("Courier", 10)) 
         backsButton.place( anchor="n",relx=0.5,rely=0.9)
+
+class Totbill(Maintain):
+    def __init__(self):
+        Maintain.__init__(self)
+    def Bill():    
+        bill_frame=Frame(frame, relief='raised',bg="grey",width=700,height=350) #
+        bill_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+        clemsg=Label(bill_frame, text ="Total Bill:1,400rs",bg="lightskyblue",fg="black")
+        clemsg.config(font=("Courier", 13))
+        clemsg.place( anchor="n",relx=0.5,rely=0.4)
+        pay_button = Button(bill_frame,text="Pay Bill",bg="lightblue",fg="black",relief="raised",command=Maintain.pay_bill)
+        pay_button.config(font=("Courier", 10)) 
+        pay_button.place( anchor="n",relx=0.5,rely=0.7)
+        backsButton = Button(bill_frame,text="Back!",bg="lightblue",fg="black",relief="raised",command=Maintain.Options)
+        backsButton.config(font=("Courier", 10)) 
+        backsButton.place( anchor="n",relx=0.5,rely=0.9)
+
         
 residents_main_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350) #first screen after watchman logs in
 residents_main_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
@@ -394,7 +451,69 @@ submitnotice.place( anchor="n",relx=0.2,rely=0.9)
 backnotice = Button(notices_frame,text="Back",bg="lightblue",fg="black",relief="raised", command=lambda:raise_frame(watchman_frame))
 backnotice.config(font=("Courier", 10)) #submit button on register page to submit data values after registering
 backnotice.place( anchor="n",relx=0.6,rely=0.9)
+
+
 #begin secretary_main_frame . fuctions for secretary should be visible
+
+class myerror(Exception):
+    pass
+
+class amount_receivedError(myerror):
+    pass
+
+def sec_maintain():
+    try:
+        strr="update residents set sec_maintenance_received=%s where r_flat_no=%s and maintenance_paid=%s and sec_maintenance_received=%s"
+        data=("yes",m_flat_no.get(),"yes","no")
+        cursor.execute(strr,data)
+        connection.commit()
+        print(cursor.rowcount)
+        if cursor.rowcount>0:
+            sm1 = Frame(frame, relief='raised',bg="grey",width=700,height=350)
+            sm1.place(relx=0.5, rely=0.5, anchor=CENTER)
+            m1 = Label(sm1, text ="Data updated successfully\nThank You.",bg="lightskyblue",fg="black")
+            m1.config(font=("Courier", 20))
+            m1.place( anchor="n",relx=0.5,rely=0.2)
+            m3= Button(sm1,text="back",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(maintain_frame))
+            m3.config(font=("Courier", 10)) 
+            m3.place( anchor="n",relx=0.5,rely=0.7)
+        else:
+            raise amount_receivedError
+    except:
+        sm1 = Frame(frame, relief='raised',bg="grey",width=700,height=350)
+        sm1.place(relx=0.5, rely=0.5, anchor=CENTER)
+        m1 = Label(sm1, text ="Amount received error\nAmount was paid earlier\nData is already updated.",bg="lightskyblue",fg="black")
+        m1.config(font=("Courier", 20))
+        m1.place( anchor="n",relx=0.5,rely=0.2)
+        m3= Button(sm1,text="back",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(maintain_frame))
+        m3.config(font=("Courier", 10)) 
+        m3.place( anchor="n",relx=0.5,rely=0.7)
+
+secretary_main_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350) #first screen after watchman logs in
+secretary_main_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+
+checkmaintenance = Button(secretary_main_frame,text="manage maintenance details",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(maintain_frame))
+checkmaintenance.config(font=("Courier", 10)) 
+checkmaintenance.place( anchor="n",relx=0.5,rely=0.3) 
+
+m_flat_no=StringVar()
+maintain_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350)
+maintain_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+m1 = Label(maintain_frame, text ="Enter flat no whose maintenance is received:",bg="lightskyblue",fg="black")
+m1.config(font=("Courier", 10))
+m1.place( anchor="n",relx=0.5,rely=0.2)
+m2 = Entry(maintain_frame,bd=5,textvariable=m_flat_no) #entry box 
+m2.place(anchor="n",relx=0.5,rely=0.5)
+m3= Button(maintain_frame,text="submit",bg="lightblue",fg="black",relief="raised",command=sec_maintain)
+m3.config(font=("Courier", 10)) 
+m3.place( anchor="n",relx=0.5,rely=0.7)
+
+
+
+
+
+
+
 
 flatnumbers_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350)
 flatnumbers_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
