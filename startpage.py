@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import messagebox
 from PIL import Image, ImageTk
+
+import re
 import MySQLdb
 connection=MySQLdb.connect(host='localhost',database='society', user='root',password='')
 cursor=connection.cursor()
@@ -235,33 +237,62 @@ backlogin = Button(watch_frame,text="Back",bg="lightblue",fg="black",relief="rai
 backlogin.config(font=("Courier", 10)) #submit button on register page to submit data values after registering
 backlogin.place( anchor="n",relx=0.6,rely=0.9)
 
+
+
 #----------------------------Resident's Frames----------------------------------------#
 def res_notice():
+    from datetime import date,datetime
+    today=str(date.today())
     notices=" "
+    newstr=""
     f=open("notices.txt")
+    f1=open("today_notice.txt","a")
+    for x in f:
+        x=x.strip("\n")
+        t=re.findall(r'\d{4}-\d{2}-\d{2}',x)
+        newstr=newstr.join(t)
+        if newstr==today:
+            f1.write(x)
+            f1.write("\n")
+            
+               
+    f.close() 
+    f1.close()
+    f1=open("today_notice.txt","r+")
+    today_notice=f1.read()
+    nottod = Label(residents_notice_frame, text=today_notice,bg="lightskyblue",fg="black")
+    nottod.config(font=("Courier", 10))
+    nottod.place( anchor="n",relx=0.5,rely=0.7)
+    f1.truncate(0)
+    f1.close()
+
+    f=open("notices.txt") 
     notices=f.read()
     raise_frame(residents_notice_frame)
     notsec = Label(residents_notice_frame, text =notices,bg="lightskyblue",fg="black")
     notsec.config(font=("Courier", 10))
     notsec.place( anchor="n",relx=0.5,rely=0.1)
+    f.close()
     backnotButton = Button(residents_notice_frame,text="Back!",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(residents_main_frame))
     backnotButton.config(font=("Courier", 10)) 
     backnotButton.place( anchor="n",relx=0.5,rely=0.9)
 
 class Maintain:
     def __init__(self):
-        option_frame = Frame(frame, relief="raised",bg="grey",width=700,height=350) #
-        option_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
-        msg3 = Label(option_frame, text ="Maintenance",bg="lightskyblue",fg="black")
-        msg3.config(font=("Courier", 20))
-        msg3.place( anchor="n",relx=0.5,rely=0.1)
-    def Options():
+        
         option_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350)
         option_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
         msg3 = Label(option_frame, text ="Maintenance",bg="lightskyblue",fg="black")
         msg3.config(font=("Courier", 20))
         msg3.place( anchor="n",relx=0.5,rely=0.1)
-        water_button3 = Button(option_frame,text="Water supply",bg="lightblue",fg="black",relief="raised",command=Water.Wat)
+        water_button3 = Button(option_frame,text="Water supply",b=CENTER)
+        msg3 = Label(option_frame, text ="Maintenance",bg="lightskyblue",fg="black")
+        msg3.config(font=("Courier", 20))
+        msg3.place( anchor="n",relx=0.5,rely=0.1)
+    def Options():
+        option_frame = Frame(frame, relief="raised",bg="grey",width=700,height=350) #
+        option_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+        water_button3 =Button(option_frame, text="water charges",bg="lightblue",fg="black",relief="raised",command=Water.Wat)
         water_button3.config(font=("Courier", 10))
         water_button3.place( anchor="n",relx=0.5,rely=0.6)
         elec_button3 = Button(option_frame,text="Electrical repairs",bg="lightblue",fg="black",relief="raised",command=Electrical.Elec)
@@ -399,6 +430,9 @@ residents_notice_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
 notres = Label(residents_notice_frame, text ="Notices Section",bg="lightskyblue",fg="black")
 notres.config(font=("Courier", 10))
 notres.place( anchor="n",relx=0.5,rely=0.01)
+today_notice = Label(residents_notice_frame, text ="Today's Notice",bg="lightskyblue",fg="black")
+today_notice.config(font=("Courier", 10))
+today_notice.place( anchor="n",relx=0.5,rely=0.6)
 
 
 #------------------------------------Watchman's Functions-----------------------------------#
