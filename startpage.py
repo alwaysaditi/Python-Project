@@ -2,10 +2,10 @@ from tkinter import *
 from tkinter import messagebox
 from PIL import Image, ImageTk
 import deliveries
-
+import deliveries as delip;
 import re
 import MySQLdb
-connection=MySQLdb.connect(host='localhost',database='society', user='root',password='root')
+connection=MySQLdb.connect(host='localhost',database='society', user='root',password='')
 cursor=connection.cursor()
 
 def resize_image(event):
@@ -59,7 +59,7 @@ watchButton.place( anchor="n",relx=0.5,rely=0.8)
 #-----------------------------------Register Page------------------------------#
 def submit():
     r_name=namee.get()
-    r_flat_no=flat_no.get()
+    r_flat_no=flat_noo.get()
     r_password=paswd.get()
     cursor = connection.cursor()
     strr='INSERT INTO residents(r_name,r_flat_no,r_password) VALUES(%s,%s,%s)'
@@ -86,7 +86,7 @@ def submit():
         backbutton.place( anchor="n",relx=0.6,rely=0.5)
         
 namee=StringVar()
-flat_no=StringVar()
+flat_noo=StringVar()
 paswd=StringVar()
 register_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350)
 register_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
@@ -101,7 +101,7 @@ entry1.place(anchor="n",relx=0.7,rely=0.3)
 flat = Label(register_frame,text ="Flat no.",bg="lightskyblue",fg="black") #Label box for flat no.
 flat.config(font=("Courier",10))
 flat.place( anchor="n",relx=0.2,rely=0.5)
-entry2 = Entry(register_frame,bd=5,textvariable=flat_no) #entry box for flat no.
+entry2 = Entry(register_frame,bd=5,textvariable=flat_noo) #entry box for flat no.
 entry2.place(anchor="n",relx=0.7,rely=0.5)
 password = Label(register_frame,text ="Password",bg="lightskyblue",fg="black") #Label box for password
 password.config(font=("Courier",10))
@@ -148,7 +148,6 @@ def login():
     
 
 lo_flat=StringVar()
-print(lo_flat)
 lo_pass=StringVar()
 login_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350)
 login_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
@@ -171,6 +170,9 @@ entry31.place(anchor="n",relx=0.7,rely=0.7)
 submitButton = Button(login_frame,text="login!",bg="lightblue",fg="black",relief="raised", command=login)
 submitButton.config(font=("Courier", 10)) #submit button on register page to submit data values after registering
 submitButton.place( anchor="n",relx=0.5,rely=0.9)
+b_log = Button(login_frame,text="Back",bg="lightblue",fg="black",relief="raised", command=lambda:raise_frame(center_frame))
+b_log.config(font=("Courier", 10)) #submit button on register page to submit data values after registering
+b_log.place( anchor="n",relx=0.6,rely=0.9)
 
 
 
@@ -222,18 +224,18 @@ w2.place( anchor="n",relx=0.5,rely=0.1)
 
 flat2 = Label(watch_frame,text ="Username",bg="lightskyblue",fg="black") #Label box for flat no.
 flat2.config(font=("Courier",10))
-flat2.place( anchor="n",relx=0.2,rely=0.5)
+flat2.place( anchor="n",relx=0.2,rely=0.3)
 entry4 = Entry(watch_frame,bd=5,textvariable=lo_wusername) #entry box for flat no.
-entry4.place(anchor="n",relx=0.7,rely=0.5)
+entry4.place(anchor="n",relx=0.7,rely=0.3)
 password1 = Label(watch_frame,text ="Password",bg="lightskyblue",fg="black") #Label box for password
 password1.config(font=("Courier",10))
-password1.place( anchor="n",relx=0.2,rely=0.7)
+password1.place( anchor="n",relx=0.2,rely=0.5)
 entry5 = Entry(watch_frame,bd=5,textvariable=lo_wpassword) #entry box for password
-entry5.place(anchor="n",relx=0.7,rely=0.7)
+entry5.place(anchor="n",relx=0.7,rely=0.5)
 
 submitButton = Button(watch_frame,text="login!",bg="lightblue",fg="black",relief="raised", command=login_watch)
 submitButton.config(font=("Courier", 10)) #submit button on register page to submit data values after registering
-submitButton.place( anchor="n",relx=0.2,rely=0.9)
+submitButton.place( anchor="n",relx=0.2,rely=0.8)
 backlogin = Button(watch_frame,text="Back",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(center_frame))
 backlogin.config(font=("Courier", 10)) #submit button on register page to submit data values after registering
 backlogin.place( anchor="n",relx=0.6,rely=0.9)
@@ -434,7 +436,7 @@ notres.place( anchor="n",relx=0.5,rely=0.01)
 today_notice = Label(residents_notice_frame, text ="Today's Notice",bg="lightskyblue",fg="black")
 today_notice.config(font=("Courier", 10))
 today_notice.place( anchor="n",relx=0.5,rely=0.6)
-watchconButton = Button(residents_main_frame,text="View message from Watchman",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(res_wat_com))
+watchconButton = Button(residents_main_frame,text="View message from Watchman",bg="lightblue",fg="black",relief="raised",command=lambda:display_msg(lo_flat.get()))
 watchconButton.config(font=("Courier", 10)) 
 watchconButton.place( anchor="n",relx=0.5,rely=0.6)
 
@@ -545,7 +547,55 @@ m3= Button(maintain_frame,text="submit",bg="lightblue",fg="black",relief="raised
 m3.config(font=("Courier", 10)) 
 m3.place( anchor="n",relx=0.5,rely=0.7)
 
+#--------------home deliveries part-----------------------------------#
+delivery_msg = StringVar()
+def sub_delivery(flat):
+    print(flat)
+    
+    
+    strr_sub="update residents set wat_delivery_msg=%s where r_flat_no=%s"
+    data_sub=(delivery_msg.get(),flat)
+    cursor.execute(strr_sub,data_sub)
+    connection.commit()
+    if cursor.rowcount>0:
+        homedeliveries_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350)
+        homedeliveries_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+        topmsg1 = Label(homedeliveries_frame, text ="Msg sent successfully",bg="lightskyblue",fg="black") #watchman's side of communication
+        topmsg1.config(font=("Courier", 20))
+        topmsg1.place( anchor="n",relx=0.5,rely=0.2)
+        back_sub= Button(homedeliveries_frame,text="back",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(flatnumbers_frame))
+        back_sub.config(font=("Courier", 10)) 
+        back_sub.place( anchor="n",relx=0.5,rely=0.7)
+    else:
+        homedeliveries_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350)
+        homedeliveries_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+        topmsg1 = Label(homedeliveries_frame, text ="try again",bg="lightskyblue",fg="black") #watchman's side of communication
+        topmsg1.config(font=("Courier", 20))
+        topmsg1.place( anchor="n",relx=0.5,rely=0.2)
+        back_sub= Button(homedeliveries_frame,text="back",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(flatnumbers_frame))
+        back_sub.config(font=("Courier", 10)) 
+        back_sub.place( anchor="n",relx=0.5,rely=0.7)
 
+
+
+def flat_no(flat):
+    homedeliveries_frame1 = Frame(frame, relief='raised',bg="grey",width=700,height=350)
+    homedeliveries_frame1.place(relx=0.5, rely=0.5, anchor=CENTER)
+    raise_frame(homedeliveries_frame1)
+    topmsg1 = Label(homedeliveries_frame1, text ="Your message please",bg="lightskyblue",fg="black") #watchman's side of communication
+    topmsg1.config(font=("Courier", 20))
+    topmsg1.place( anchor="n",relx=0.5,rely=0.2)
+    
+    enter_message =Entry(homedeliveries_frame1,bd=5,textvariable=delivery_msg)
+    enter_message.config(font=("Courier", 20))
+    enter_message.place( anchor="n",relx=0.5,rely=0.4)
+
+    msg_sub= Button(homedeliveries_frame1,text="submit",bg="lightblue",fg="black",relief="raised",command=lambda:sub_delivery(flat))
+    msg_sub.config(font=("Courier", 10)) 
+    msg_sub.place( anchor="n",relx=0.5,rely=0.6)
+    back_sub= Button(homedeliveries_frame1,text="back",bg="lightblue",fg="black",relief="raised",command=lambda:raise_frame(flatnumbers_frame))
+    back_sub.config(font=("Courier", 10)) 
+    back_sub.place( anchor="n",relx=0.5,rely=0.8)
 
 
 
@@ -556,108 +606,101 @@ flatnumbers_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
 topmsg = Label(flatnumbers_frame, text ="Flat number you want to contact:",bg="lightskyblue",fg="black")
 topmsg.config(font=("Courier", 20))
 topmsg.place( anchor="n",relx=0.5,rely=0.2)
-a101= Button(flatnumbers_frame,text="101",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no(101))
+a101= Button(flatnumbers_frame,text="101",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no("101"))
 a101.config(font=("Courier", 10)) 
 a101.place( anchor="n",x=100,y=140)
-a102= Button(flatnumbers_frame,text="102",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no(102))
+a102= Button(flatnumbers_frame,text="102",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no("102"))
 a102.config(font=("Courier", 10)) 
 a102.place( anchor="n",x=100,y=200)
-a103= Button(flatnumbers_frame,text="103",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no(103))
+a103= Button(flatnumbers_frame,text="103",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no("103"))
 a103.config(font=("Courier", 10)) 
 a103.place( anchor="n",x=100,y=260)
-a201= Button(flatnumbers_frame,text="201",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no(201))
+a201= Button(flatnumbers_frame,text="201",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no("201"))
 a201.config(font=("Courier", 10)) 
 a201.place( anchor="n",x=180,y=140)
-a202= Button(flatnumbers_frame,text="202",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no(202))
+a202= Button(flatnumbers_frame,text="202",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no("202"))
 a202.config(font=("Courier", 10)) 
 a202.place( anchor="n",x=180,y=200)
-a203= Button(flatnumbers_frame,text="203",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no(203))
+a203= Button(flatnumbers_frame,text="203",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no("203"))
 a203.config(font=("Courier", 10)) 
 a203.place( anchor="n",x=180,y=260)
-a301= Button(flatnumbers_frame,text="301",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no(301))
+a301= Button(flatnumbers_frame,text="301",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no("301"))
 a301.config(font=("Courier", 10)) 
 a301.place( anchor="n",x=260,y=140)
-a302= Button(flatnumbers_frame,text="302",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no(302))
+a302= Button(flatnumbers_frame,text="302",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no("302"))
 a302.config(font=("Courier", 10)) 
 a302.place( anchor="n",x=260,y=200)
-a303= Button(flatnumbers_frame,text="303",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no(303))
+a303= Button(flatnumbers_frame,text="303",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no("303"))
 a303.config(font=("Courier", 10)) 
 a303.place( anchor="n",x=260,y=260)
-a401= Button(flatnumbers_frame,text="401",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no(401))
+a401= Button(flatnumbers_frame,text="401",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no("401"))
 a401.config(font=("Courier", 10)) 
 a401.place( anchor="n",x=340,y=140)
-a402= Button(flatnumbers_frame,text="402",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no(402))
+a402= Button(flatnumbers_frame,text="402",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no("402"))
 a402.config(font=("Courier", 10)) 
 a402.place( anchor="n",x=340,y=200)
-a403= Button(flatnumbers_frame,text="403",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no(403))
+a403= Button(flatnumbers_frame,text="403",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no("403"))
 a403.config(font=("Courier", 10)) 
 a403.place( anchor="n",x=340,y=260)
-a501= Button(flatnumbers_frame,text="501",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no(501))
+a501= Button(flatnumbers_frame,text="501",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no("501"))
 a501.config(font=("Courier", 10)) 
 a501.place( anchor="n",x=420,y=140)
-a502= Button(flatnumbers_frame,text="502",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no(502))
+a502= Button(flatnumbers_frame,text="502",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no("502"))
 a502.config(font=("Courier", 10)) 
 a502.place( anchor="n",x=420,y=200)
-a503= Button(flatnumbers_frame,text="503",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no(503))
+a503= Button(flatnumbers_frame,text="503",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no("503"))
 a503.config(font=("Courier", 10)) 
 a503.place( anchor="n",x=420,y=260)
-a601= Button(flatnumbers_frame,text="601",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no(601))
+a601= Button(flatnumbers_frame,text="601",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no("601"))
 a601.config(font=("Courier", 10)) 
 a601.place( anchor="n",x=500,y=140)
-a602= Button(flatnumbers_frame,text="602",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no(602))
+a602= Button(flatnumbers_frame,text="602",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no("602"))
 a602.config(font=("Courier", 10)) 
 a602.place( anchor="n",x=500,y=200)
-a603= Button(flatnumbers_frame,text="603",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no(603))
+a603= Button(flatnumbers_frame,text="603",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no("603"))
 a603.config(font=("Courier", 10)) 
 a603.place( anchor="n",x=500,y=260)
-a701= Button(flatnumbers_frame,text="701",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no(701))
+a701= Button(flatnumbers_frame,text="701",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no("701"))
 a701.config(font=("Courier", 10)) 
 a701.place( anchor="n",x=580,y=140)
-a702= Button(flatnumbers_frame,text="702",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no(702))
+a702= Button(flatnumbers_frame,text="702",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no("702"))
 a702.config(font=("Courier", 10)) 
 a702.place( anchor="n",x=580,y=200)
-a703= Button(flatnumbers_frame,text="703",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no(703))
+a703= Button(flatnumbers_frame,text="703",bg="lightblue",fg="black",relief="raised",command=lambda:flat_no("703"))
 a703.config(font=("Courier", 10))
 a703.place( anchor="n",x=580,y=260)
-proceedd = Button(flatnumbers_frame,text="Proceed",bg="lightpink",fg="black",relief="raised")
+proceedd = Button(flatnumbers_frame,text="back",bg="lightpink",fg="black",relief="raised",command=lambda:raise_frame(watchman_frame))
 proceedd.config(font=("Courier", 10)) #submit button on register page to submit data values after registering
 proceedd.place( anchor="n",relx=0.5,rely=0.9)
 
-#--------------home deliveries part-----------------------------------#
 
 
-def flat_no(flat):
-    raise_frame(homedeliveries_frame)
-    print("contacted flat ",flat)
-    msg = delivery_msg.get()
-
-def watcom(flat,msg):
-    if flat ==101:
-        n101.config(text=msg)
-    elif flat ==102:
-        n102.config(text=msg)
+    
 
 
-homedeliveries_frame = Frame(frame, relief='raised',bg="grey",width=700,height=350)
-homedeliveries_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
-topmsg1 = Label(homedeliveries_frame, text ="Your message please",bg="lightskyblue",fg="black") #watchman's side of communication
-topmsg1.config(font=("Courier", 20))
-topmsg1.place( anchor="n",relx=0.5,rely=0.2)
-delivery_msg = StringVar()
-enter_message =Entry(homedeliveries_frame,bd=5,textvariable=delivery_msg)
-enter_message.config(font=("Courier", 20))
-enter_message.place( anchor="n",relx=0.5,rely=0.4)
-subwat= Button(homedeliveries_frame,text="Submit",bg="lightblue",fg="black",relief="raised")
-subwat.config(font=("Courier", 10))
-subwat.place( anchor="n",relx=0.5,rely=0.6)
-res_wat_com = Frame(frame, relief='raised',bg="grey",width=700,height=350) #resident's side of communication.
-res_wat_com.place(relx=0.5, rely=0.5, anchor=CENTER)
-n101 = Label(res_wat_com,bg="lightskyblue",fg="black") #Label box for date of notice
-n101.config(font=("Courier",10))
-n101.place( anchor="n",relx=0.2,rely=0.3)
-n102 = Label(res_wat_com,bg="lightskyblue",fg="black") #Label box for date of notice
-n102.config(font=("Courier",10))
-n102.place( anchor="n",relx=0.2,rely=0.3)
+def display_msg(fflat_no):
+
+    res_wat_com = Frame(frame, relief='raised',bg="grey",width=700,height=350) #resident's side of communication.
+    res_wat_com.place(relx=0.5, rely=0.5, anchor=CENTER)
+    lambda:raise_frame(res_wat_com)
+    str_msg="select wat_delivery_msg from residents where r_flat_no=%s"
+    data_msg=(fflat_no,)
+    cursor.execute(str_msg,data_msg)
+    record=cursor.fetchone()
+    print(record[0])
+    res=record[0]
+    print_msg1 = Label(res_wat_com, text="messages section:-",bg="lightskyblue",fg="black") #watchman's side of communication
+    print_msg1.config(font=("Courier", 20))
+    print_msg1.place( anchor="n",relx=0.5,rely=0.2)
+    print_msg = Label(res_wat_com, text=res,bg="lightskyblue",fg="black") #watchman's side of communication
+    print_msg.config(font=("Courier", 20))
+    print_msg.place( anchor="n",relx=0.5,rely=0.4)
+
+    msg_back = Button(res_wat_com,text="back",bg="lightpink",fg="black",relief="raised",command=lambda:raise_frame(residents_main_frame))
+    msg_back.config(font=("Courier", 10)) #submit button on register page to submit data values after registering
+    msg_back.place( anchor="n",relx=0.5,rely=0.8)
+
+
 raise_frame(center_frame)
 root.mainloop()
 
